@@ -1,0 +1,74 @@
+Lo scope di questo task è di salvare tutti i dati di un form nel local storage.
+-Fai in modo che nello span venga inserito il testo che si è inserito nell'input
+nome - Fai in modo che questi dati si salvino nel local storage -Controlla che
+al reload il nome nel titolo non scompaia
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .form {
+        display: flex;
+        flex-direction: column;
+        max-width: 300px;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Il form di <span class="title-name"></span></h1>
+    <div class="form">
+      <label for="email">Email</label>
+      <input type="email" name="email" class="email" placeholder="email" />
+      <label for="firstname">Name</label>
+      <input
+        type="text"
+        name="firstname"
+        class="firstname"
+        placeholder="firstname"
+      />
+      <label for="lastname">Surname</label>
+      <input
+        type="text"
+        name="lastname"
+        class="lastname"
+        placeholder="lastname"
+      />
+    </div>
+    <button class="btn">Salva</button>
+    <p class="printedform"></p>
+    <script>
+      const span = document.querySelector(".title-name");
+      const email = document.querySelector(".email");
+      const name = document.querySelector(".firstname");
+      const lastname = document.querySelector(".lastname");
+      const btn = document.querySelector(".btn");
+
+      btn.addEventListener("click", () => {
+        const formData = {
+          userEmail: email.value,
+          userName: name.value,
+          lastName: lastname.value,
+        };
+        localStorage.setItem("formData", JSON.stringify(formData));
+        span.innerText = formData.userName;
+        const compiledForm = document.querySelector(".printedform");
+        compiledForm.innerText = `Email: ${formData.userEmail}, Name: ${formData.userName}, Surname: ${formData.lastName}`;
+      });
+      const savedFormData = JSON.parse(localStorage.getItem("formData"));
+      if (savedFormData.userName) {
+        span.innerText = savedFormData.userName;
+      }
+    </script>
+  </body>
+</html>
